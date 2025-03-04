@@ -1,38 +1,47 @@
-<template>
-  <div>
-    <transition name="router-fade" mode="out-in">
-      <keep-alive>
-        <router-view v-if="$route.meta.keepAlive"></router-view>
-      </keep-alive>
-    </transition>
-    <transition name="router-fade" mode="out-in">
-      <router-view v-if="!$route.meta.keepAlive"></router-view>
-    </transition>
-    <svg-icon></svg-icon>
-  </div>
-</template>
-
-<script>
-import svgIcon from '@/components/common/svg.vue';
-export default {
-  name: 'App',
-  components: {
-    svgIcon
-  },
-  computed:{
-    userInfo(){
-      return this.$store.state.userInfo;
-    }
-  }
-}
+<script setup>
+import HelloWorld from './components/HelloWorld.vue'
+import TheWelcome from './components/TheWelcome.vue'
 </script>
 
-<style scoped lang="scss">
-@import "./style/common.scss";
-.router-fade-enter-active, .router-fade-leave-active {
-  transition: opacity .3s;
+<template>
+  <header>
+    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+
+    <div class="wrapper">
+      <HelloWorld msg="You did it!" />
+    </div>
+  </header>
+
+  <main>
+    <TheWelcome />
+  </main>
+</template>
+
+<style scoped>
+header {
+  line-height: 1.5;
 }
-.router-fade-enter, .router-fade-leave-active {
-  opacity: 0;
+
+.logo {
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+@media (min-width: 1024px) {
+  header {
+    display: flex;
+    place-items: center;
+    padding-right: calc(var(--section-gap) / 2);
+  }
+
+  .logo {
+    margin: 0 2rem 0 0;
+  }
+
+  header .wrapper {
+    display: flex;
+    place-items: flex-start;
+    flex-wrap: wrap;
+  }
 }
 </style>
