@@ -1,25 +1,89 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import HeadTop from '@/components/header/index.vue'
-import { onBeforeMount } from 'vue'
+import AlterTip from '@/components/common/AlterTip.vue'
 import { useRouter } from 'vue-router'
 import useStore from '@/store/index.js'
+import { getcaptchas, accountLogin } from '@/service/getData.js'
 
 const store = useStore()
 const $router = useRouter()
-const { login } = store
+const { login, record_userinfo } = store
 
 const loginWay = ref(false) // 登录方式，默认为密码登录
 const showPassword = ref(false) // 是否显示密码
+const captchaCodeImg = ref('') // 验证码图片
+const userinfo = ref(null) // 用户信息
 const formData = ref({
   userAccount: null, // 用户名
   password: null, // 密码
   codeNumber: null, // 验证码
-  showPassword: false, // 是否显示密码
+})
+const alterData = ref({
+  alterText: '',
+  showAlert: false,
 })
 
+const getCaptchaCode = async () => {
+  const res = await getcaptchas()
+  captchaCodeImg.value = res.code
+}
+
+const changePasswordType = () => {
+  showPassword.value = !showPassword.value
+}
+
+/**
+ * 测试账号
+ * adminelm
+ * adminelm123456
+ * user_id 80165
+ * @returns {Promise<void>}
+ */
+const mobileLogin = async () => {
+  if (loginWay.value) {
+    // 手机号登录
+  } else {
+    // 密码登录
+    if (!formData.value.userAccount) {
+      alterData.value.showAlert = true
+      alterData.value.alterText = '请输入手机号/邮箱/用户名'
+      return
+    } else if (!formData.value.password) {
+      alterData.value.showAlert = true
+      alterData.value.alterText = '请输入密码'
+      return
+    } else if (!formData.value.codeNumber) {
+      alterData.value.showAlert = true
+      alterData.value.alterText = '请输入验证码'
+      return
+    }
+    userinfo.value = await accountLogin(
+      formData.value.userAccount,
+      formData.value.password,
+      formData.value.codeNumber,
+    )
+  }
+  if (!userinfo.value.user_id) {
+    alterData.value.showAlert = true
+    alterData.value.alterText = userinfo.value.message
+    if (!loginWay.value) {
+      formData.value = { ...formData.value, codeNumber: null }
+      getCaptchaCode()
+    }
+  } else {
+    record_userinfo(userinfo.value)
+    $router.go(-1)
+  }
+}
+
+const closeTip = () => {
+  alterData.value.showAlert = false
+  alterData.value.alterText = ''
+}
 
 onBeforeMount(() => {
+  getCaptchaCode()
   if (login) {
     $router.back()
   }
@@ -35,8 +99,13 @@ onBeforeMount(() => {
         <input type="text" placeholder="账号" v-model.lazy="formData.userAccount" />
       </section>
       <section class="input_container">
-        <input v-if="!showPassword" type="password" placeholder="密码" v-model="formData.password" />
-        <input v-else type="text" placeholder="密码" v-model="password" />
+        <input
+          v-if="!showPassword"
+          type="password"
+          placeholder="密码"
+          v-model="formData.password"
+        />
+        <input v-else type="text" placeholder="密码" v-model="formData.password" />
         <div class="button_switch" :class="{ change_to_text: showPassword }">
           <div
             class="circle_button"
@@ -48,11 +117,11 @@ onBeforeMount(() => {
         </div>
       </section>
       <section class="input_container captcha_code_container">
-        <input type="text" placeholder="验证码" maxlength="4" v-model="codeNumber" />
+        <input type="text" placeholder="验证码" maxlength="4" v-model="formData.codeNumber" />
         <div class="img_change_img">
-          <!--          <img v-show="captchaCodeImg" :src="captchaCodeImg" alt="">-->
-          <!--          该用svg-->
-          <div v-html="captchaCodeImg"></div>
+          <img v-show="captchaCodeImg" :src="captchaCodeImg" alt="" />
+
+          <!--          <div v-html="captchaCodeImg"></div>-->
           <div class="change_img" @click="getCaptchaCode">
             <p>看不清</p>
             <p>换一张</p>
@@ -64,7 +133,7 @@ onBeforeMount(() => {
     <p class="login_tips">注册过的用户可凭账号密码登录</p>
     <div class="login_container" @click="mobileLogin">登录</div>
     <router-link to="/profile/forget" class="to_forget">重置密码</router-link>
-    <AlterTip v-if="showAlert" :alter-text="alterText" @closeTip="closeTip"></AlterTip>
+    <AlterTip v-if="alterData.showAlert" :alter-text="alterData.alterText" @closeTip="closeTip"></AlterTip>
   </div>
 </template>
 

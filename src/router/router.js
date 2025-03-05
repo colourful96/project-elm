@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import BaseLayout from '@/layouts/BaseLayout.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,6 +15,24 @@ const router = createRouter({
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
     },
+    {
+      path: '/profile',
+      component: BaseLayout,
+      children:[
+        {
+          path:'',
+          component: () => import('@/views/profile/ProfileView.vue'),
+        },
+        {
+          path:'info',
+          component: () => import('@/views/profile/children/InfoView.vue'),
+        },
+        {
+          path:'setusername',
+          component: () => import('@/views/profile/children/SetUsernameView.vue'),
+        }
+      ]
+    }
   ],
 })
 
