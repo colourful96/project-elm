@@ -1,15 +1,56 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import HeadTop from '@/components/header/index.vue'
+import useStore from '@/store/index.js'
+import {deleteAddress} from '@/service/getData.js';
+
+const store = useStore()
 
 const deletesite = ref(false) // 是否是编辑状态
 const editText = ref('编辑')
+
+const { removeAddress, userInfo } = computed(() => {
+  return {
+    removeAddress:store.removeAddress,
+    userInfo: store.userInfo
+  }
+})
+
+const editThing = () => {
+  if (editText.value === '编辑') {
+    editText.value = '完成';
+    deletesite.value = true;
+  } else {
+    editText.value = '编辑';
+    deletesite.value = false;
+  }
+}
+
+const deleteSite = (index, item) => {
+  if (userInfo && userInfo.user_id) {
+    deleteAddress(userInfo.user_id, item.id).then(() => {
+      removeAddress.splice(index, 1);
+    })
+  }
+}
+
+const initData = () => {
+  if(userInfo && userInfo.user_id){
+    store.saveAddress()
+  }
+}
+
+onMounted(() => {
+  initData()
+})
 </script>
 
 <template>
   <div class="rating_page">
     <head-top :head-title="'编辑地址'" :go-back="true">
-      <span slot="edit" class="edit" @click="editThing">{{ editText }}</span>
+      <template v-slot:edit>
+        <span class="edit" @click="editThing">{{ editText }}</span>
+      </template>
     </head-top>
     <section class="address">
       <ul class="addresslist">
@@ -41,7 +82,7 @@ const editText = ref('编辑')
 </template>
 
 <style scoped lang="scss">
-@import 'src/style/mixin';
+@import '@/style/mixin';
 
 .rating_page {
   padding-top: 1.95rem;

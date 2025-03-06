@@ -1,12 +1,15 @@
 <script setup>
-import { defineProps, onMounted } from 'vue'
+import { computed, defineProps, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import useStore from '@/store/index.js'
 
 const $router = useRouter()
 const store = useStore()
-console.log(store, 'store')
-const { userInfo, getUserInfo } = store
+const { getUserInfo } = store
+
+const userInfo = computed(() => {
+  return store.userInfo
+})
 
 const props = defineProps({
   headTitle: String,
@@ -17,7 +20,7 @@ const props = defineProps({
   signinUp: String,
 })
 onMounted(() => {
-  if (!userInfo || !userInfo.user_id) {
+  if (!userInfo.value || !userInfo.value.user_id) {
     getUserInfo()
   }
 })

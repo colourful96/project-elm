@@ -1,17 +1,17 @@
 <script setup>
-import { reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import HeadTop from '@/components/header/index.vue'
 import AlterTip from '@/components/common/AlterTip.vue'
 import useStore from '@/store/index.js'
 
 const store = useStore()
 
-const userInfo = ref(store.userInfo)
 const imgBaseUrl = ref('//elm.cangdu.org/img/')
 const alterData = reactive({
   alterText: '',
   showAlert: false,
 })
+const userInfo = computed(() => store.userInfo)
 
 const uploadAvatar = async () => {
   const input = document.querySelector('.profileinfopanel-upload')
@@ -77,7 +77,7 @@ watch(
         <section class="headportrait headportraitwo">
           <h2>用户名</h2>
           <div class="headportrait-div">
-            <p>{{ userInfo.username }}</p>
+            <p>{{ userInfo?.username }}</p>
             <span class="headportrait-div-bottom">
               <svg fill="#d8d8d8">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -110,7 +110,7 @@ watch(
             手机
           </h2>
           <div class="headportrait-div">
-            <p>{{ userInfo.mobile }}</p>
+            <p>{{ userInfo?.mobile }}</p>
             <span class="headportrait-div-bottom">
               <svg fill="#d8d8d8">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>

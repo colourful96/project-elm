@@ -30,6 +30,22 @@ const router = createRouter({
         {
           path:'setusername',
           component: () => import('@/views/profile/children/SetUsernameView.vue'),
+        },
+        {
+          path:'address',
+          component: () => import('@/views/profile/children/AddressView.vue'),
+        },
+        {
+          path:'forget',
+          component: () => import('@/views/profile/children/ForgetView.vue'),
+        },
+        {
+          path:'addaddress',
+          component: () => import('@/views/profile/children/AddAddressView.vue'),
+        },
+        {
+          path: 'addaddressdetail',
+          component: () => import('@/views/profile/children/AddAddressDetailView.vue'),
         }
       ]
     }
