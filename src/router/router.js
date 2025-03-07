@@ -48,6 +48,52 @@ const router = createRouter({
           component: () => import('@/views/profile/children/AddAddressDetailView.vue'),
         }
       ]
+    },
+    {
+      path:'/balance',
+      component: BaseLayout,
+      children:[
+        {
+          path:'',
+          component: () => import('@/views/balance/BalanceView.vue'),
+        },
+        {
+          path:'detail',
+          component: () => import('@/views/balance/children/Detail.vue'),
+        }
+      ]
+    },
+    {
+      path: '/discount',
+      component: BaseLayout,
+      children:[
+        {
+          path:'',
+          component: () => import('@/views/discount/DiscountView.vue'),
+        },
+        {
+          path:'hbDescription',
+          component: () => import('@/views/discount/children/HbDescription.vue'),
+        },
+        {
+          path:'hbHistory',
+          component: () => import('@/views/discount/children/HbHistory.vue'),
+        }
+      ]
+    },
+    {
+      path: '/points',
+      component: BaseLayout,
+      children:[
+        {
+          path:'',
+          component: () => import('@/views/points/PointsView.vue'),
+        },
+        {
+          path: 'detail',
+          component: () => import('@/views/points/children/Detail.vue'),
+        }
+      ]
     }
   ],
 })

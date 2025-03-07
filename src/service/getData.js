@@ -194,14 +194,14 @@ export const getAddressList = (user_id) => fetch('/v1/users/' + user_id + '/addr
  * @param id
  * @returns {Promise<unknown>|*}
  */
-export const getHongbaoNum = id => fetch('/v2/users/' + id + '/hongbaos?limit=20&offset=0');
+export const getHongbaoNum = id => window.fetch('https://elm.cangdu.org/promotion/v2/users/' + id + '/hongbaos?limit=20&offset=0').then(res => res.json());
 
 /**
  * 获取过期红包
  * @param id
  * @returns {Promise<unknown>|*}
  */
-export const getExpired = id => fetch('/v2/users/' + id + '/expired_hongbaos?limit=20&offset=0');
+export const getExpired = id => window.fetch('https://elm.cangdu.org/promotion/v2/users/' + id + '/expired_hongbaos?limit=20&offset=0').then(res => res.json());
 
 /**
  * 兑换红包

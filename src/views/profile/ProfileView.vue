@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import HeadTop from '@/components/header/index.vue'
+import FootGuide from '@/components/footer/Footguide.vue'
 import useStore from '@/store/index.js'
 
 const store = useStore()
@@ -82,36 +83,23 @@ watch(
       </section>
       <section class="info-data">
         <ul class="clear">
-          <!--          <router-link to="/balance" tag="li" class="info-data-link">-->
-          <!--            <span class="info-data-top">-->
-          <!--              <b>{{ parseInt(profileData.balance).toFixed(2) }}元</b>-->
-          <!--            </span>-->
-          <!--            <span class="info-data-bottom">我的余额</span>-->
-          <!--          </router-link>-->
-
-          <router-link to="/balance" custom class="info-data-link">
-            <li>
-              <span class="info-data-top">
-                <b>{{ parseInt(profileData.balance).toFixed(2) }}元</b>
-              </span>
-              <span class="info-data-bottom">我的余额</span>
-            </li>
+          <router-link to="/balance" tag="li" class="info-data-link">
+            <span class="info-data-top">
+              <b>{{ parseInt(profileData.balance).toFixed(2) }}元</b>
+            </span>
+            <span class="info-data-bottom">我的余额</span>
           </router-link>
-          <router-link to="/discount" custom class="info-data-link">
-            <li>
-              <span class="info-data-top">
-                <b>{{ profileData.count }}</b>
-              </span>
-              <span class="info-data-bottom">我的优惠</span>
-            </li>
+          <router-link to="/discount" tag="li" class="info-data-link">
+            <span class="info-data-top">
+              <b>{{ profileData.count }}</b>
+            </span>
+            <span class="info-data-bottom">我的优惠</span>
           </router-link>
-          <router-link to="/points" custom class="info-data-link">
-            <li>
+          <router-link to="/points" tag="li" class="info-data-link">
               <span class="info-data-top">
                 <b>{{ profileData.pointNumber }}</b>
               </span>
               <span class="info-data-bottom">我的积分</span>
-            </li>
           </router-link>
         </ul>
       </section>
