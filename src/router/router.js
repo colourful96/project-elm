@@ -11,6 +11,10 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/home',
+      component: HomeView,
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginView.vue'),
@@ -18,80 +22,102 @@ const router = createRouter({
     {
       path: '/profile',
       component: BaseLayout,
-      children:[
+      children: [
         {
-          path:'',
+          path: '',
           component: () => import('@/views/profile/ProfileView.vue'),
         },
         {
-          path:'info',
+          path: 'info',
           component: () => import('@/views/profile/children/InfoView.vue'),
         },
         {
-          path:'setusername',
+          path: 'setusername',
           component: () => import('@/views/profile/children/SetUsernameView.vue'),
         },
         {
-          path:'address',
+          path: 'address',
           component: () => import('@/views/profile/children/AddressView.vue'),
         },
         {
-          path:'forget',
+          path: 'forget',
           component: () => import('@/views/profile/children/ForgetView.vue'),
         },
         {
-          path:'addaddress',
+          path: 'addaddress',
           component: () => import('@/views/profile/children/AddAddressView.vue'),
         },
         {
           path: 'addaddressdetail',
           component: () => import('@/views/profile/children/AddAddressDetailView.vue'),
-        }
-      ]
+        },
+      ],
     },
     {
-      path:'/balance',
+      path: '/balance',
       component: BaseLayout,
-      children:[
+      children: [
         {
-          path:'',
+          path: '',
           component: () => import('@/views/balance/BalanceView.vue'),
         },
         {
-          path:'detail',
+          path: 'detail',
           component: () => import('@/views/balance/children/Detail.vue'),
-        }
-      ]
+        },
+      ],
     },
     {
       path: '/discount',
       component: BaseLayout,
-      children:[
+      children: [
         {
-          path:'',
+          path: '',
           component: () => import('@/views/discount/DiscountView.vue'),
         },
         {
-          path:'hbDescription',
+          path: 'hbDescription',
           component: () => import('@/views/discount/children/HbDescription.vue'),
         },
         {
-          path:'hbHistory',
+          path: 'hbHistory',
           component: () => import('@/views/discount/children/HbHistory.vue'),
-        }
-      ]
+        },
+      ],
     },
     {
       path: '/points',
       component: BaseLayout,
-      children:[
+      children: [
         {
-          path:'',
+          path: '',
           component: () => import('@/views/points/PointsView.vue'),
         },
         {
           path: 'detail',
           component: () => import('@/views/points/children/Detail.vue'),
+        },
+      ],
+    },
+    {
+      path: '/city/:cityid',
+      component: () => import('@/views/CityView.vue'),
+    },
+    {
+      path: '/msite',
+      component: () => import('@/views/MsiteView.vue'),
+    },
+    {
+      path: '/food',
+      component: () => import('@/views/FoodView.vue'),
+    },
+    {
+      path: '/shop',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/shop/ShopView.vue'),
         }
       ]
     }

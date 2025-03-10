@@ -9,6 +9,8 @@ const useStore = defineStore('store', {
     removeAddress: [],
     geohash: '31.22299,121.36025', // 地址geohash
     addAddress: '', // 新增地址
+    latitude: '', // 当前位置纬度
+    longitude: '', // 当前位置经度
   }),
   getters: {
     getterUserInfo: (state) => state.userInfo,
