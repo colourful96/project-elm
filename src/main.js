@@ -5,5 +5,7 @@ import { createApp } from 'vue'
 import {createPinia} from "pinia"
 import App from './App.vue'
 import router from './router/router.js'
+import { vLoadMore } from '@/directive/loadMore.js'
 
-createApp(App).use(createPinia()).use(router).mount('#app')
+// 可以使用.directive()注册全局指令
+createApp(App).directive('loadMore', vLoadMore).use(createPinia()).use(router).mount('#app')
