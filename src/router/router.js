@@ -130,6 +130,54 @@ const router = createRouter({
           component: FoodDetail,
         }
       ]
+    },
+    {
+      path: '/search',
+      component: () => import('@/views/SearchView.vue'),
+    },
+    {
+      path: '/order',
+      component: BaseLayout,
+      children:[
+        {
+          name:'',
+          component: () => import('@/views/order/OrderView.vue'),
+        },
+        {
+          name:'orderDetail/:order_id',
+          component: () => import('@/views/order/children/OrderDetail.vue'),
+        }
+      ]
+    },
+    {
+      path: '/confirmOrder',
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/confirmOrder/ConfirmOrderView.vue'),
+        },
+        {
+          path:'addAddress',
+          component: () => import('@/views/confirmOrder/children/AddAddress.vue'),
+        },
+        {
+          path: 'chooseAddress',
+          component: () => import('@/views/confirmOrder/children/ChooseAddress.vue')
+        },
+        {
+          path: 'payment',
+          component: () => import('@/views/confirmOrder/children/Payment.vue')
+        },
+        {
+          path: 'remark',
+          component: () => import('@/views/confirmOrder/children/Remark.vue')
+        },
+        {
+          path: 'searchAddress',
+          component: () => import('@/views/confirmOrder/children/SearchAddress.vue')
+        }
+      ]
     }
   ],
 })

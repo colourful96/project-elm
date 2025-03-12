@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getUser, getAddressList } from '@/service/getData.js'
-import { setStore } from '@/utils/index.js'
+import { setStore, getStore } from '@/utils/index.js'
 
 const useStore = defineStore('store', {
   state: () => ({
@@ -118,7 +118,46 @@ const useStore = defineStore('store', {
       }
     },
     record_shopDetail(detail) {
-      this.shopDetail = detail;
+      this.shopDetail = detail
+    },
+    save_order(detail) {
+      this.orderDetail = detail
+    },
+    // 网页初始化时从本地缓存获取购物车数据
+    init_buyCard() {
+      let initCart = getStore('buyCart')
+      if (initCart) {
+        this.cartList = JSON.parse(initCart)
+      }
+    },
+    save_shopId(shopId) {
+      this.shopId = shopId
+    },
+    // 订单参数
+    save_order_param(orderParam) {
+      this.orderParam = orderParam
+    },
+    // 下单成功保存返回值
+    order_success(order) {
+      this.cartPrice = null;
+      this.orderMessage = order;
+    },
+    confirm_address(newAddress) {
+      this.newAddress.push(newAddress);
+    },
+    // 下单时选择的收货地址
+    choose_address({address, index}) {
+      this.chooseAddress = address;
+      this.addressIndex = index;
+    },
+    // 订单备注
+    confirm_remark({remarkText, inputText}) {
+      this.remarkText = remarkText;
+      this.inputText = inputText;
+    },
+    // 选择搜索到的地址
+    choose_search_address(place) {
+      this.searchAddress = place;
     },
   },
 })
